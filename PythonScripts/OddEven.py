@@ -18,7 +18,10 @@ import sys
 
 if __name__ == '__main__':
     n = int(input().strip())
+    check = {True: "Not Weird", False: "Weird"}
+    print(check[n % 2 == 0 and (n in range(2, 6) or n > 20)])
 
+"""
     if n % 2 == 0:
         if 2 <= n <= 5:
             print("Not Weird")
@@ -28,6 +31,8 @@ if __name__ == '__main__':
             print("Not Weird")
     else:
         print("Weird")
+"""
+
 
 
 
