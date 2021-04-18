@@ -430,5 +430,277 @@ Dictionary is a collection which is ordered* and changeable. No duplicate member
 				print(x.lastname)
 				print(x.graduationyear)
 				x.welcome()
+#Iterator : will be back again
 
-       			
+#Python Scope 
+		#local variable
+		#A variable created inside a function belongs to the local scope of that function, and can only be used inside that function.
+
+				def myfunc():
+  					x = 300
+  					print(x)
+
+				myfunc()
+				#output 300
+		#Function Inside Function - can access local variables in innner class
+				def myfunc():
+  					x = 300
+  				def myinnerfunc():
+    				print(x)
+  					myinnerfunc()
+
+				myfunc()
+				#output 300
+		#Global Scope
+				#A variable created in the main body of the Python code is a global variable and belongs to the global scope.
+				x = 300
+
+				def myfunc():
+  					print(x)
+
+				myfunc()
+
+				print(x)
+		#Naming Variables
+				#Python will treat them as two separate variables, one available in the global scope (outside the function) and one available in the local scope (inside the function)
+					x = 300
+
+					def myfunc():
+  						x = 200
+  						print(x)
+
+					myfunc()
+
+					print(x)
+		#Global Keyword
+					def myfunc():
+  						global x
+  						x = 300
+
+					myfunc()
+
+					print(x)
+		#To change the value of a global variable inside a function, refer to the variable by using the global keyword:
+
+					x = 300
+
+					def myfunc():
+  						global x
+  						x = 200
+
+					myfunc()
+
+					print(x)
+#Python Modules
+		#Consider a module to be the same as a code library.
+		#To create a module just save the code you want in a file with the file extension .py:
+		#Save this code in a file named mymodule.py
+					def greeting(name):
+  						print("Hello, " + name)
+  		#Use a Module
+  			#Import the module named mymodule, and call the greeting function:
+  					import mymodule
+
+					mymodule.greeting("Jonathan")
+		#The module can contain functions, as already described, but also variables of all types (arrays, dictionaries, objects etc):
+
+					person1 = {
+  						"name": "John",
+  						"age": 36,
+  						"country": "Norway"
+
+						}
+
+	    #accessing dictionary values
+	    			import mymodule
+
+						a = mymodule.person1["age"]
+						print(a)
+		#Naming a Module
+				#You can name the module file whatever you like, but it must have the file extension .py
+		#Re-naming a Module
+				#You can create an alias when you import a module, by using the as keyword:
+
+					import mymodule as mx
+
+						a = mx.person1["age"]
+						print(a)
+
+		#Built-in Modules
+					import platform
+
+						x = platform.system()
+						print(x)
+		#Using the dir() Function
+				#There is a built-in function to list all the function names (or variable names) in a module. The dir() function:
+					import platform
+
+						x = dir(platform)
+						print(x)
+       	#Import From Module
+       			#The module named mymodule has one function and one dictionary:
+       					def greeting(name):
+  							print("Hello, " + name)
+
+						person1 = {
+								"name": "John",
+								"age": 36,
+								"country": "Norway"
+							}	
+				#accessing memembers with from
+					from mymodule import person1
+
+					print (person1["age"])	
+				#Note: When importing using the from keyword, do not use the module name when referring to elements in the module. Example: person1["age"], not mymodule.person1["age"]		
+#Python Datetime
+	#A date in Python is not a data type of its own, but we can import a module named datetime to work with dates as date objects.
+
+					import datetime
+
+					x = datetime.datetime.now()
+					print(x)
+					#o/p : 2021-04-17 01:54:56.553417
+
+					import datetime
+
+					x = datetime.datetime.now()
+
+					print(x.year)
+					print(x.strftime("%A"))
+
+					#o/p: 2021
+					#	  Saturday
+					#Creating Date Objects
+						#To create a date, we can use the datetime() class (constructor) of the datetime module.
+
+						#The datetime() class requires three parameters to create a date: year, month, day.	and it takes time values but not mandatory.
+						import datetime
+
+						x = datetime.datetime(2020, 5, 17)
+
+						print(x)
+					#The strftime() Method, below code returns month fulll name.
+						import datetime
+
+						x = datetime.datetime(2018, 6, 1)
+
+						print(x.strftime("%B"))
+
+#Math module : import math - > to access various members to perform operations like min(), max(), sqrt()
+						x = min(5, 10, 25)
+						y = max(5, 10, 25)
+
+						print(x)
+						print(y)
+#Json :
+						import json
+
+						import json
+
+						# some JSON:
+						x =  '{ "name":"John", "age":30, "city":"New York"}'
+
+						# parse x:
+						y = json.loads(x)
+
+						# the result is a Python dictionary:
+						print(y["age"])
+
+						#Convert from Python to JSON
+						import json
+
+						# a Python object (dict):
+						x = {
+						  "name": "John",
+						  "age": 30,
+						  "city": "New York"
+						}
+
+						# convert into JSON:
+						y = json.dumps(x)
+
+						# the result is a JSON string:
+						print(y)
+#Reg-ex : A RegEx, or Regular Expression, is a sequence of characters that forms a search pattern.
+
+						import re
+						txt = "The rain in Spain"
+                        x = re.search("^The.*Spain$", txt)  #Search the string to see if it starts with "The" and ends with "Spain":
+                        x = re.findall("ai", txt)   #function returns a list containing all matches.
+                        x = re.search("\s", txt)    #Search for the first white-space character in the string:
+                        x = re.split("\s", txt)     #function returns a list where the string has been split at each match:
+                        x = re.split("\s", txt, 1)  #Split the string only at the first occurrence:
+                        x = re.sub("\s", "9", txt)	#Replace every white-space character with the number 9:
+                        x = re.search(r"\bS\w+", txt) #Search for an upper case "S" character in the beginning of a word, and print its position:
+           #.span() returns a tuple containing the start-, and end positions of the match.
+		   #.string returns the string passed into the function
+           #.group() returns the part of the string where there was a match
+#PIP : PIP is a package manager for Python packages, or modules if you like.
+
+#Try except 
+						try:
+  							print(x)
+						except:
+  							print("An exception occurred")
+
+
+  						try:
+  							print(x)
+						except NameError:
+  							print("Variable x is not defined")
+						except:
+  							print("Something else went wrong")
+
+  						#The try block does not raise any errors, so the else block is executed:
+
+						try:
+  							print("Hello")
+						except:
+  							print("Something went wrong")
+						else:
+  							print("Nothing went wrong")
+
+  						#The finally block gets executed no matter if the try block raises any errors or not:
+
+						try:
+  							print(x)
+						except:
+  							print("Something went wrong")
+						finally:
+  							print("The 'try except' is finished")
+#Raise an exception :As a Python developer you can choose to throw an exception if a condition occurs.
+						x = -1
+
+						if x < 0:
+  						raise Exception("Sorry, no numbers below zero")
+
+  						x = "hello"
+
+						if not type(x) is int:
+  						raise TypeError("Only integers are allowed")
+#User Input :input()
+						username = input("Enter username:")
+						print("Username is: " + username)
+#String format() 		
+						price = 49
+						txt = "The price is {} dollars"
+						print(txt.format(price))
+
+						txt = "The price is {:.2f} dollars" #Format the price to be displayed as a number with two decimals:
+
+						#multiple values
+						quantity = 3
+						itemno = 567
+						price = 49
+						myorder = "I want {} pieces of item number {} for {:.2f} dollars."
+						print(myorder.format(quantity, itemno, price))
+						#index
+						age = 36
+						name = "John"
+						txt = "His name is {1}. {1} is {0} years old."
+						print(txt.format(age, name))
+
+						#Named Indexes
+						myorder = "I have a {carname}, it is a {model}."
+						print(myorder.format(carname = "Ford", model = "Mustang"))
+
