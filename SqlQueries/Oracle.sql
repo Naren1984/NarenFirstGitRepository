@@ -575,3 +575,64 @@ DEPT DATE1   STARTFLAG GRP RNK
 
 ---<<<<<<<<<<<<<<<<<<<<<<
 
+--->>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+--Hierarchical employee and manager levels
+
+with RECURSIVE emp_cte as
+(
+select empno, ename, mgr, cast('' as varchar(50)) as mgrname, 0 as emplevel
+from scott.emp
+where mgr is null
+union all
+select e.empno AS empno , e.ename AS ename, e.mgr AS mgr, cast(m.ename as varchar(50)) as mgrname, emplevel+1 as emplevel
+from scott.emp as e inner join emp_cte as m
+on e.mgr=m.empno
+)
+select * from emp_cte;
+
+
+-->> LEVEL and connect by prior 
+
+SELECT LEVEL, LPAD (' ', 2 * (LEVEL - 1)) || ename "employee", empno, mgr "manager"
+FROM scott.emp START WITH mgr IS NULL
+CONNECT BY PRIOR empno = mgr;
+
+select level, lpad(' ',2*(level-1)) || ename as employeename, empno, mgr, sys_connect_by_path(ename,'/') as path
+from scott.emp START WITH mgr IS NULL
+connect by prior empno=mgr;
+
+LEVEL,EMPLOYEENAME,EMPNO,MGR,PATH
+1,KING,7839, - ,/KING
+2,  JONES,7566,7839,/KING/JONES
+3,    SCOTT,7788,7566,/KING/JONES/SCOTT
+4,      ADAMS,7876,7788,/KING/JONES/SCOTT/ADAMS
+3,    FORD,7902,7566,/KING/JONES/FORD
+4,      SMITH,7369,7902,/KING/JONES/FORD/SMITH
+2,  BLAKE,7698,7839,/KING/BLAKE
+3,    ALLEN,7499,7698,/KING/BLAKE/ALLEN
+3,    WARD,7521,7698,/KING/BLAKE/WARD
+3,    MARTIN,7654,7698,/KING/BLAKE/MARTIN
+3,    TURNER,7844,7698,/KING/BLAKE/TURNER
+3,    JAMES,7900,7698,/KING/BLAKE/JAMES
+2,  CLARK,7782,7839,/KING/CLARK
+3,    MILLER,7934,7782,/KING/CLARK/MILLER
+
+
+
+SELECT ename "Employee", CONNECT_BY_ROOT ename "Manager",
+LEVEL-1 "Pathlen", SYS_CONNECT_BY_PATH(ename, '/') "Path"
+FROM scott.emp
+WHERE LEVEL > 1 and deptno = 10
+CONNECT BY PRIOR empno = mgr
+ORDER BY "Employee", "Manager", "Pathlen", "Path";
+
+
+Employee  Manager Pathlen     Path
+CLARK     KING        1     /KING/CLARK
+MILLER    CLARK       1     /CLARK/MILLER
+MILLER    KING        2     /KING/CLARK/MILLER
+
+
+
+
